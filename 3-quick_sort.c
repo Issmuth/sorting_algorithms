@@ -20,8 +20,11 @@ void swap(int *i, int *j)
  * pivot chosen using the lomuto scheme.
  *
  * @array: ...
+ * @size: ...
  * @low: ...
  * @high: ...
+ *
+ * Return: segment index
  */
 
 int segment(int *array, size_t  size, int low, int high)
@@ -52,8 +55,10 @@ int segment(int *array, size_t  size, int low, int high)
  * sort - calls the partition function recursively
  * and until right is less than left
  *
- * @left: leftmost element in the partition
- * @right: rightmost element in the partition
+ * @array: array to be sorted
+ * @size: size of array
+ * @low: leftmost element in the partition
+ * @high: rightmost element in the partition
  */
 
 void sort(int *array, size_t size, int low, int high)
