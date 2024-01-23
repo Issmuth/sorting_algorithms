@@ -33,4 +33,5 @@ void swap(int *i, int *j);
 int segment(int *array, size_t  size, int low, int high);
 void sort(int *array, size_t size, int low, int high);
 void quick_sort(int *array, size_t size);
+void shell_sort(int *array, size_t size);
 #endif
