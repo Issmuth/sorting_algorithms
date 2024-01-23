@@ -1,12 +1,12 @@
 #include "sort.h"
 
 /**
- * dll_adj_swap - swaps two adjacent nodes of a doubly linked list
- * @list: doubly linked list of integers to be sorted
- * @left: node closer to head, right->prev
- * @right: node closer to tail, left->next
+ * swaps - swaps two nodes
+ * @list: list to be sorted
+ * @right: ...
+ * @left: ...
  */
-void dll_adj_swap(listint_t **list, listint_t *left, listint_t *right)
+void swaps(listint_t **list, listint_t *left, listint_t *right)
 {
 	listint_t *swap;
 
@@ -16,6 +16,7 @@ void dll_adj_swap(listint_t **list, listint_t *left, listint_t *right)
 		*list = right;
 	if (right->next)
 		right->next->prev = left;
+
 	right->prev = left->prev;
 	left->prev = right;
 	swap = right;
@@ -26,14 +27,15 @@ void dll_adj_swap(listint_t **list, listint_t *left, listint_t *right)
 }
 
 /**
- * cocktail_sort_list - sorts a doubly linked list of integers in ascending
- * order using an cocktail shaker sort algorithm
- * @list: doubly linked list of integers to be sorted
+ * cocktail_sort_list - sorts a list of integers using
+ * cocktail shaker sort algorithm
+ * @list: list to be sorted
  */
+
 void cocktail_sort_list(listint_t **list)
 {
-	bool swapped_f, swapped_b;
-	int shake_range = 1000000, checks;
+	int new_range = 1000000, new_checks;
+	int new_swapped_f, new_swapped_b;
 	listint_t *temp;
 
 	if (!list || !(*list) || !(*list)->next)
@@ -41,33 +43,33 @@ void cocktail_sort_list(listint_t **list)
 
 	temp = *list;
 	do {
-		swapped_f = swapped_b = false;
-		for (checks = 0; temp->next && checks < shake_range; checks++)
+		new_swapped_f = new_swapped_b = 0;
+		for (new_checks = 0; temp->next && new_checks < new_range; new_checks++)
 		{
 			if (temp->next->n < temp->n)
 			{
-				dll_adj_swap(list, temp, temp->next);
-				swapped_f = true;
-			}
-			else
+				swaps(list, temp, temp->next);
+				new_swapped_f = 1;
+			} else
 				temp = temp->next;
 		}
-		if (!temp->next)  /* first loop, measuring list */
-			shake_range = checks;
-		if (swapped_f)
+		if (!temp->next)
+			new_range = new_checks;
+
+		if (new_swapped_f)
 			temp = temp->prev;
-		shake_range--;
-		for (checks = 0; temp->prev && checks < shake_range; checks++)
+
+		new_range--;
+		for (new_checks = 0; temp->prev && new_checks < new_range; new_checks++)
 		{
 			if (temp->n < temp->prev->n)
 			{
-				dll_adj_swap(list, temp->prev, temp);
-				swapped_b = true;
-			}
-			else
+				swaps(list, temp->prev, temp);
+				new_swapped_b = 1;
+			} else
 				temp = temp->prev;
 		}
-		if (swapped_b)
+		if (new_swapped_b)
 			temp = temp->next;
-	} while (swapped_f || swapped_b);
+	} while (new_swapped_f || new_swapped_b);
 }
